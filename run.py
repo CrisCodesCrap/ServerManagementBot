@@ -1,6 +1,3 @@
-from main import bot, load_dotenv, getenv
+from main import bot, token
 
-load_dotenv()
-TOKEN = getenv("TOKEN")
-
-bot.run(TOKEN)
+bot.run(token)
