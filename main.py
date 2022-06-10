@@ -29,7 +29,16 @@ async def on_member_join(ctx):
   await ctx.add_roles(role)
   
 
-@commands.command(name="hi", description="Says hi the the person you specify", guild=discord.Object(id=guildId))
-async def self(interaction:Interaction):
-    await interaction.response.send_message('Hi, ' + interaction.user.mention)
-    
+@commands.command(name="clear", description="Clears the chat.", guild=discord.Object(id=guildId))
+async def self(ctx:Interaction, amount:str):
+    if amount == "all":
+        await ctx.response.send_message("Clearing chat...")
+        await ctx.channel.purge(limit=None)
+    elif amount.isnumeric():
+        await ctx.response.send_message("Clearing the last {} messages...".format(amount))
+        await ctx.channel.purge(limit=int(amount))
+    else:
+        msg = await ctx.response.send_message("Please enter a number or 'all' to execute the command.")
+        await deleteMsg(msg)
+async def deleteMsg(msg):
+    await msg.delete(delay=5)
